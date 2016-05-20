@@ -1,3 +1,7 @@
+// FPGA Receiver module
+// by Chaiyapat Julsri
+// Using for FPGA to FPGA transmission from an FPGA transmitter
+
 module fpga_receiver(
   
   // Data received, to be sent out to other systems
@@ -29,7 +33,7 @@ wire shift;
 
 // redirecting the wires as shown in block diagram
 fpga_receiver_state rs(received, acknowledge, shift, processed, send, finish, clock, reset);
-shift_register sr(data_out, data, shift, clock, reset);
+fpga_shift_register sr(data_out, data, shift, clock, reset);
 
 endmodule
 

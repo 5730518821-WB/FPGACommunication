@@ -12,18 +12,22 @@ module fpga_receiver_state(
 
 // The states, using one hot encoding
 reg [5:0] state, next_state;
-wire Idle, Start, Wait, Process, End, Receive, Next;
+wire Idle, Start, Wait, Process, End, Receive, Next, Valid;
 assign Idle = (state == 0);
-assign Start = (state == 1);
-assign Wait = (state == 2);
-assign Process = (state == 4);
-assign End = (state == 8);
-assign Received = (state == 16);
-assign Next = (state == 32);
+assign Start = state[0];
+assign Wait = state[1];
+assign Process = state[2];
+assign End = state[3];
+assign Received = state[4];
+assign Next = state[5];
+assign Valid = (Idle+Start+Wait+Process+End+Received+Next == 1);
 
 // State transitions as shown in ASM chart
 always @(*) begin
   if (reset) begin
+    next_state = 0;
+  end
+  else if (~Valid) begin
     next_state = 0;
   end
   else if (Idle) begin
