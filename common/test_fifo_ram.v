@@ -49,6 +49,19 @@ wire read_enable, write_enable;
 always
 #10 clock = ~clock;
 
+fifo_ram f(
+    .data_out(data_out),
+    .full(full),
+    .empty(empty),
+    .data_in(data_in),
+    .read(read),
+    .write(write),
+    .enable(enable),
+    .clock(clock),
+    .reset(reset)
+); 
+
+
 initial
 begin    
 // -------- reset -------

@@ -43,6 +43,17 @@ reg clock;
 always
 #10 clock = ~clock;
 
+show_number sn( 
+    .ss_out(ss_out),
+    .ss_digit(ss_digit),
+    .clock(clock),
+    .number0(number0),
+    .number1(number1),
+    .number2(number2),
+    .number3(number3)   
+);
+
+
 initial
 begin
 // ---------- reset ----------
