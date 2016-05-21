@@ -27,13 +27,14 @@ module uart_transmitter(
 // Redirect wires according to the block diagram
 wire shift, load, increment, set;
 wire next_bit, all;
-
 wire [15:0] count;
 
-uart_transmitter_state uts();
+assign all = (count == 11);
+
+uart_transmitter_state uts(busy, shift, load, increment, set, send, hold, all, next_bit, clock, reset);
 
 counter c(count, 16'h0, set, increment, clock, reset);
-uart_timer ut(next_bit, clock);
+uart_timer ut(next_bit, set, clock, reset);
 
 wire [10:0] data_sent, data_input;
 wire parity;
