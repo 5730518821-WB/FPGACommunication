@@ -1,10 +1,10 @@
-module fpga_transmitter_state(finishSent,finish,sendToOther,resetCounter,increment,load,shift,sent,acknowledge,count8,clk,reset);
-output finishSent,finish,sendToOther,resetCounter,increment,load,shift;
+module fpga_transmitter_state(busy,finish,sendToOther,resetCounter,increment,load,shift,sent,acknowledge,count8,clk,reset);
+output busy,finish,sendToOther,resetCounter,increment,load,shift;
 input sent,acknowledge,count8,clk,reset;
 
 reg[3:0] ps;
 reg[3:0] ns;
-reg finishSent,finish,sendToOther,resetCounter,increment,load,shift;
+reg busy,finish,sendToOther,resetCounter,increment,load,shift;
 
 always @(posedge clk)
 begin
@@ -37,8 +37,9 @@ begin
 	else increment = 0;
 	if(ps == 5)finish = 1;
 	else finish = 0;
-	if(ps == 6)finishSent = 1;
-	else finishSent = 0;
+	if(ps == 0)busy = 0;
+	else busy = 1;
 end
 
 endmodule
+
