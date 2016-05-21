@@ -33,7 +33,7 @@ wire shift;
 
 // redirecting the wires as shown in block diagram
 fpga_receiver_state rs(received, acknowledge, shift, processed, send, finish, clock, reset);
-fpga_shift_register sr(data_out, data, shift, clock, reset);
+fpga_shift_register sr(data_out, 8'hZ, data, shift, 1'b0, clock, reset);
 
 endmodule
 
