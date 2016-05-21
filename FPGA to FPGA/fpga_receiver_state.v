@@ -66,7 +66,7 @@ always @(posedge clock)
 // The logic for output signals as shown in ASM chart
 assign received = Process;
 assign acknowledge = Start | End | Next;
-assign shift = Receive;
+assign shift = Received;
 
 endmodule
 
