@@ -8,4 +8,4 @@ fpga_transmitter_state s0(finishSent,finish,sendToOther,resetCounter,increment,l
 fpga_shift_register sreg0(dataOut,8'b0,dataIn,shift,load,clk,reset);
 counter8 c0(count8,increment,clk,resetCounter);
 
-endmodule
+endmodule 
