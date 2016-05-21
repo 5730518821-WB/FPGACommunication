@@ -1,4 +1,4 @@
-module stateForFpgaTran(finishSent,finish,sendToOther,resetCounter,increment,load,shift,sent,acknowledge,count8,clk,reset);
+module fpga_transmitter_state(finishSent,finish,sendToOther,resetCounter,increment,load,shift,sent,acknowledge,count8,clk,reset);
 output finishSent,finish,sendToOther,resetCounter,increment,load,shift;
 input sent,acknowledge,count8,clk,reset;
 
@@ -39,3 +39,5 @@ begin
 	if(ps == 6)finishSent = 1;
 	else finishSent = 0;
 end
+
+endmodule
