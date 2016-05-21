@@ -4,6 +4,7 @@ input sent,acknowledge,count8,clk,reset;
 
 reg[3:0] ps;
 reg[3:0] ns;
+reg finishSent,finish,sendToOther,resetCounter,increment,load,shift;
 
 always @(posedge clk)
 begin
