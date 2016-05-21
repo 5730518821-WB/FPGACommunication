@@ -5,7 +5,7 @@ input[7:0] dataIn;
 
 stateForFpgaTran s0(finishSent,finish,sendToOther,resetCounter,increment,load,shift,sent,acknowledge,count8,clk,reset);
 assign mode = (load or shift,load);
-shift_register sreg0(dataOut,8'b0,dataIn,mode,clk,reset);
+fpga_shift_register sreg0(dataOut,8'b0,dataIn,shift,load,clk,reset);
 counter8 c0(count8,increment,clk,resetCounter);
 
 endmodule
