@@ -25,7 +25,7 @@ module fpga_shift_register(
 wire [1:0] mode;
 assign mode = {shift|load, load};
 
-shift_register s(data_out, 8'hZ, data_in_s, mode, clock, reset);
+shift_register s(data_out, data_in_p, data_in_s, mode, clock, reset);
 
 endmodule
 
