@@ -49,7 +49,7 @@ always @(*) begin
   else if (End) begin
     next_state = 0;
   end
-  else if (Receive) begin
+  else if (Received) begin
     next_state = 32;
   end
   else if (Next) begin
