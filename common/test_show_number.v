@@ -35,8 +35,8 @@ reg [3:0] number1;
 reg [3:0] number2;
 reg [3:0] number3;
 //output
-reg [7:0] ss_out;
-reg [3:0] ss_digit;   
+wire [7:0] ss_out;
+wire [3:0] ss_digit;   
 
 reg clock;
 

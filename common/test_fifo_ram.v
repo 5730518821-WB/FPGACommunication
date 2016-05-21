@@ -32,9 +32,9 @@ module test_fifo_ram(
     input reset
     );
 
-reg [7:0] data_out;
-reg full;
-reg empty;
+wire [7:0] data_out;
+wire full;
+wire empty;
 reg [7:0] data_in;
 reg read;
 reg write;
