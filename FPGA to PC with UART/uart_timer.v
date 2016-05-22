@@ -7,7 +7,7 @@ reg[20:0] count;
 
 always @(posedge clk)
 begin
-	if(resetTimer or reset)begin count=0;timetick=0; end
+	if(resetTimer || reset)begin count=0;timetick=0; end
 	else if(timetick)
 		begin 
 			timetick=0;
