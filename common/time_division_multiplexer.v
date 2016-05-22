@@ -14,7 +14,7 @@ wire valid;
 assign valid = (select[0]+select[1]+select[2]+select[3] == 3);
 
 wire [15:0] timing;
-counter c(timing, 16'hZ, 1'b0, 1'b1, clock, reset);
+counter c(timing, 16'hZ, 1'b0, 1'b1, clock, 1'b0);
 
 always @(posedge timing[15])
   if (valid)

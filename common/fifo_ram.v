@@ -15,8 +15,8 @@ module fifo_ram(
   input [7:0] data_in,
 
   // Read, Write port
-  input read,
-  input write,
+  input pop,
+  input push,
 
   // RAM Enable signal
   input enable,
@@ -30,23 +30,31 @@ module fifo_ram(
 
 reg [13:0] read_address, write_address;
 
-wire read_enable, write_enable;
-assign read_enable = enable&(~empty);
-assign write_enable = enable&(~full);
+wire do_pop, do_push;
+assign do_pop = pop&(~empty);
+assign do_push = push&(~full);
 
 // Connecting to the Dual Port RAM
-dual_port_ram dpr(data_out, data_in, read_address, read, read_enable, write_address, write, write_enable, clock);
+dual_port_ram dpr(data_out, data_in, read_address, write_address, do_push&enable, clock);
 
 always @(posedge clock) begin
-  if (read&read_enable) begin
-    read_address = read_address+1;
-    if (read_address == write_address) empty = 1;
-    full = 0;
+  if (reset) begin
+    read_address = 0;
+	 write_address = 0;
+	 empty = 1;
+	 full = 0;
   end
-  if (write&write_enable) begin
-    write_address = write_address+1;
-    if (write_address == read_address) full = 1;
-    empty = 0;
+  else if (enable) begin
+    if (do_push) begin
+      write_address = write_address+1;
+      if (write_address == read_address) full = 1;
+      empty = 0;
+    end
+    if (do_pop) begin
+      read_address = read_address+1;
+      if (read_address == write_address) empty = 1;
+      full = 0;
+    end
   end
 end
 
