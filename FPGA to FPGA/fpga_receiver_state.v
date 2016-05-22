@@ -18,9 +18,9 @@ assign Start = state[0];
 assign Wait = state[1];
 assign Process = state[2];
 assign End = state[3];
-assign Received = state[4];
+assign Receive = state[4];
 assign Next = state[5];
-assign Valid = (Idle+Start+Wait+Process+End+Received+Next == 1);
+assign Valid = (Idle+Start+Wait+Process+End+Receive+Next == 1);
 
 // State transitions as shown in ASM chart
 always @(*) begin
