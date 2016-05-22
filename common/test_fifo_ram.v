@@ -97,9 +97,9 @@ writeData(16);
 writeData(32);
 writeData(64);
 writeData(128);
-writeData(256);
-writeData(512);
-writeData(1024);
+writeData(255);
+writeData(112);
+writeData(44);
 #40  enable = 0;
 // ------- read  -------
 #50  enable = 1;
