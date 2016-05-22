@@ -57,6 +57,17 @@ processed = 0;
 
 // ------------- start ------------
 transmit(45);
+transmit(2);
+transmit(4);
+transmit(8);
+transmit(16);
+transmit(32);
+transmit(64);
+transmit(128);
+transmit(255);
+transmit(99);
+transmit(3);
+
 // -------------- end -------------
 
 #100 ;
