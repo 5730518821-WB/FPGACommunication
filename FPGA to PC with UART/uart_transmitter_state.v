@@ -38,7 +38,7 @@ module uart_transmitter_state(
 // 11: Wait
 // 10: Shift
 reg [1:0] state, next_state;
-wire Idle, Start, Wait, Shift
+wire Idle, Start, Wait, Shift;
 assign Idle = (state == 0);
 assign Start = (state == 1);
 assign Wait = (state == 3);
