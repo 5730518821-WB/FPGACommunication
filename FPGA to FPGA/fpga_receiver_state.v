@@ -18,9 +18,9 @@ assign Start = state[0];
 assign Wait = state[1];
 assign Process = state[2];
 assign End = state[3];
-assign Received = state[4];
+assign Receive = state[4];
 assign Next = state[5];
-assign Valid = (Idle+Start+Wait+Process+End+Received+Next == 1);
+assign Valid = (Idle+Start+Wait+Process+End+Receive+Next == 1);
 
 // State transitions as shown in ASM chart
 always @(*) begin
@@ -49,7 +49,7 @@ always @(*) begin
   else if (End) begin
     next_state = 0;
   end
-  else if (Received) begin
+  else if (Receive) begin
     next_state = 32;
   end
   else if (Next) begin
@@ -66,7 +66,7 @@ always @(posedge clock)
 // The logic for output signals as shown in ASM chart
 assign received = Process;
 assign acknowledge = Start | End | Next;
-assign shift = Received;
+assign shift = Receive;
 
 endmodule
 
