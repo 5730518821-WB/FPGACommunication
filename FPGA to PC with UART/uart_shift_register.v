@@ -22,7 +22,7 @@ assign data_out = {data_output[1], data_output[0][7:5]};
 assign {data_input[1], data_input[0]} = {data_in_p, 5'b0};
 
 wire [1:0] mode;
-assign mode = {load, load|shift};
+assign mode = {load|shift, load};
 
 shift_register s1(data_output[1], data_input[1], data_in_s, mode, clock, reset);
 shift_register s0(data_output[0], data_input[0], data_output[1][0], mode, clock, reset);
