@@ -8,7 +8,7 @@ reg busy,finish,sendToOther,resetCounter,increment,load,shift;
 
 always @(posedge clk)
 begin
-	if(reset)ps=0;
+	if(reset)ps=7;
 	else ps = ns;
 end
 
@@ -20,7 +20,8 @@ begin
 	if(ps == 3)ns = (acknowledge)?4:3;
 	if(ps == 4)ns = (count8)?5:3;
 	if(ps == 5)ns = (acknowledge)?6:5;
-	if(ps == 6)ns = 0;
+	if(ps == 6)ns = (sent)?6:0;
+	if(ps == 7)ns = (sent)?7:0;
 end
 
 always @(ps)
