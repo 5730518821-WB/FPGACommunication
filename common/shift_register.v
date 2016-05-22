@@ -34,7 +34,7 @@ assign load = (mode == 3);
 
 // The logic for data_out register
 always @(posedge clock) begin
-  if (reset) data_out = 0;
+  if (reset) data_out = 8'hFF;
   else if (hold) data_out = data_out;
   else if (shift_left) data_out = {data_out[6:0], data_in_s};
   else if (shift_right) data_out = {data_in_s, data_out[7:1]};
