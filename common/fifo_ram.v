@@ -47,6 +47,7 @@ always @(posedge clock) begin
     write_address = write_address+1;
     if (write_address == read_address) full = 1;
     empty = 0;
+  end
 end
 
 endmodule
