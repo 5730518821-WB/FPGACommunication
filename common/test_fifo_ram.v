@@ -20,17 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module test_fifo_ram(
-    output [7:0] data_out,
-    output full,
-    output empty,
-    input [7:0] data_in,
-    input read,
-    input write,
-    input enable,
-    input clock,
-    input reset
-    );
+module test_fifo_ram();
 
 wire [7:0] data_out;
 wire full;

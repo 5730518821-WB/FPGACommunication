@@ -20,15 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module test_show_number(
-    input [3:0] number0,
-    input [3:0] number1,
-    input [3:0] number2,
-    input [3:0] number3,
-    input clock,
-    output [7:0] ss_out,
-    output [3:0] ss_digit
-    );
+module test_show_number();
 // input
 reg [3:0] number0;
 reg [3:0] number1;
