@@ -37,7 +37,7 @@ reg [13:0] read_address, write_address;
 wire read_enable, write_enable;
     
 always
-#10 clock = ~clock;
+#20 clock = ~clock;
 
 fifo_ram f(
     .data_out(data_out),
@@ -51,10 +51,27 @@ fifo_ram f(
     .reset(reset)
 ); 
 
+task writeData;
+input [7:0] wd ;
+begin 
+#40 data_in = wd;
+#40 write = 1;
+#40 write = 0;
+#100;
+end
+endtask
+
+task readData;
+begin
+#40 read = 1;
+#40 read = 0;
+#100;
+end
+endtask
 
 initial
 begin    
-// -------- reset -------
+// -------- initial -------
 data_in = 0;
 read = 0;
 write = 0;
@@ -65,25 +82,84 @@ reset = 1;
 reset = 0;
 
 
-// -------- reset ------ 
  
 #100;                    // wait  to start
 
 // -------- start ------
 #20;
 // -------- write ------
-#50  enable = 1;
-#100  write = 1;
-#1000;                   // wait  to write
-#100  write = 0;
-#50  enable = 0;
+#40  enable = 1;
+writeData(1);
+writeData(2);
+writeData(4);
+writeData(8);
+writeData(16);
+writeData(32);
+writeData(64);
+writeData(128);
+writeData(256);
+writeData(512);
+writeData(1024);
+#40  enable = 0;
 // ------- read  -------
 #50  enable = 1;
-#100  read = 1;
-#1000;                   // wait  to read
-#100  read = 0;
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
 #50  enable = 0;
- 
+//-------  reset ---------
+#40 reset = 1;
+#40 reset = 0;
+//
+// --------  write + unenable-------
+#50  enable = 0;
+writeData(2);
+writeData(3);
+writeData(5);
+writeData(7);
+
+// ---------- read + unenable  -----------
+#50  enable = 0;
+readData();
+readData();
+readData();
+readData();
+
+// ----------- reset ------------
+#40 reset = 1;
+#40 reset = 0;
+
+// ---------- write full -----------
+#40  enable = 1;
+while(!full) begin
+writeData(8);
+end
+#40  enable = 0;
+// ---------- try to write more !! --------
+#40  enable = 1;
+writeData(9);
+writeData(9);
+writeData(9);
+#40  enable = 0;
+// ---------- read full -------------
+#40  enable = 1;
+while(!empty) begin
+readData();
+end
+#40  enable = 0;
+#100;
+// ----------- reset ------------
+#40 reset = 1;
+#40 reset = 0;
+
 #100;
 $stop; 
     
