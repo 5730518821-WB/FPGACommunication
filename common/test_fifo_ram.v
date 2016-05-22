@@ -31,10 +31,6 @@ reg write;
 reg enable;
 reg clock;
 reg reset;
-
-reg [13:0] read_address, write_address;
-
-wire read_enable, write_enable;
     
 always
 #20 clock = ~clock;
@@ -44,8 +40,8 @@ fifo_ram f(
     .full(full),
     .empty(empty),
     .data_in(data_in),
-    .read(read),
-    .write(write),
+    .pop(read),
+    .push(write),
     .enable(enable),
     .clock(clock),
     .reset(reset)
@@ -78,8 +74,8 @@ write = 0;
 enable = 0;
 clock = 0;
 
-reset = 1;
-reset = 0;
+#100 reset = 1;
+#100 reset = 0;
 
 
  
@@ -118,20 +114,41 @@ readData();
 //-------  reset ---------
 #40 reset = 1;
 #40 reset = 0;
+
+//------- pre-write ------
+#50 enable = 1;
+writeData(11);
+writeData(15);
+writeData(19);
+writeData(23);
+#50 enable = 0;
 //
 // --------  write + unenable-------
-#50  enable = 0;
+
 writeData(2);
 writeData(3);
 writeData(5);
 writeData(7);
 
 // ---------- read + unenable  -----------
-#50  enable = 0;
+
 readData();
 readData();
 readData();
 readData();
+
+// ----------- post-read --------
+
+#50 enable = 1;
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+readData();
+#50 enable = 0;
 
 // ----------- reset ------------
 #40 reset = 1;
@@ -154,6 +171,9 @@ writeData(9);
 while(!empty) begin
 readData();
 end
+readData();
+readData();
+readData();
 #40  enable = 0;
 #100;
 // ----------- reset ------------
