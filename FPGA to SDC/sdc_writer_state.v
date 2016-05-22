@@ -1,15 +1,17 @@
-module stateSdcWriter(count,byteEnable,resetCounter,loadCmd,shiftCmd,nextAddr,dataSelect,tokenSelect,oe,loadFromState,start,empty,endCRC,block,response,hasNext,byte,clk,reset);
-output count,byteEnable,reset,loadCmd,shiftCmd,nextAddr,dataSelect,tokenSelect,oe,loadFromState;
-input start,empty,endCRC,block,hasNext,byte,clk,reset;
+module stateSdcWriter(count,byteEnable,reset,loadCmd,shiftCmd,nextAddr,dataSelect,tokenSelect,oe,startCountData,start,empty,endCRC,block,response,hasNext,bytes,clk,resetAll);
+output count,byteEnable,reset,loadCmd,shiftCmd,nextAddr,dataSelect,tokenSelect,oe,startCountData;
+input start,empty,endCRC,block,hasNext,bytes,clk,resetAll;
 input[7:0] response;
 
+wire[7:0] response;
 reg[3:0] ps;
 reg[3:0] ns;
 reg oe;
+reg count,byteEnable,reset,loadCmd,shiftCmd,nextAddr,dataSelect,tokenSelect,startCountData;
 
 always @(posedge clk)
 begin
-	if(reset)ps=0;
+	if(resetAll)ps=0;
 	else ps = ns;
 end
 
@@ -23,20 +25,24 @@ begin
 	else if(ps == 1)ns = 2;
 	else if(ps == 2)
 		begin
-			if(hasNext && !empty && response == 8'b1111_1111)ns = 3;
-			else ns = 2;
+			if(hasNext)
+				begin 
+					if(empty == 0  & (response == 8'b11111111))ns=3;
+					else ns = 2;
+				end
+			else ns = 0;
 		end
 	else if(ps == 3)ns = 4;
 	else if(ps == 4)
 		begin
-			if(response == 8'b0000_0000)ns = 5;
+			if(response == 8'b00000000)ns = 5;
 			else if(response[7] == 1)ns = 4;
 			else ns = 3;
 		end
 	else if(ps == 5)ns = 6;
 	else if(ps == 6)
 		begin
-			if(byte)ns = 7;
+			if(bytes)ns = 7;
 			else ns = 6;
 		end
 	else if(ps == 7)
@@ -62,8 +68,8 @@ begin
 	else shiftCmd = 0;
 	if(ps == 5)tokenSelect = 1;
 	else tokenSelect = 0;
-	if(ps == 5)loadFromState = 1;
-	else loadFromState = 0;
+	if(ps == 5)startCountData = 1;
+	else startCountData = 0;
 	if(ps == 6 || ps == 7|| ps == 8)count=1;
 	else count = 0;
 	if(ps == 6 || ps == 7|| ps == 8)dataSelect=1;
@@ -75,3 +81,5 @@ begin
 	if(ps == 3 || ps == 4 || ps == 5 || ps == 6 || ps == 7 || ps == 8)oe=1;
 	else oe = 0;
 end
+
+endmodule 

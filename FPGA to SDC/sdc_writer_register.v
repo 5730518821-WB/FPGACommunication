@@ -3,10 +3,10 @@ input[7:0] sizeRead;
 input clk,resetCounter;
 output[7:0] sizeAddr;
 
+reg[7:0] sizeAddr;
 always @(posedge clk)
 begin
-	if(resetCounter)sizeAddr = 0;
-	else sizeAddr = sizeRead;
+	sizeAddr = sizeRead;
 end
 
 endmodule
