@@ -1,13 +1,13 @@
-module uartRec(dataOut,finish,dataIn,clk,reset);
+module uartRec(dataOut,finish,received,dataIn, clk,reset);
 	
 output [7:0]dataOut;
-output finish;
+output finish,received;
 input dataIn,clk,reset;
 
 
-stateForUartRec s0(resetTimer,resetCounter,increment,shift,finish,count8,count10,timetick,dataIn,clk,reset);
+stateForUartRec s0(resetTimer,resetCounter,increment,shift,finish,received,count8,count9,timetick,dataIn, clk,reset);
 uart_timer t0(timetick,resetTimer,clk,1'b0);
-counterUartReceiver c0(count8,count10,increment,clk,resetCounter);
+counterUartReceiver c0(count8,count9,increment,clk,resetCounter);
 
 
 wire[1:0] mode;

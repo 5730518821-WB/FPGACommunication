@@ -29,7 +29,7 @@ wire shift, load, increment, set;
 wire next_bit, all;
 wire [15:0] count;
 
-assign all = (count == 11);
+assign all = (count == 10);
 
 uart_transmitter_state uts(busy, shift, load, increment, set, send, hold, all, next_bit, clock, reset);
 
@@ -37,9 +37,8 @@ counter c(count, 16'h0, set, increment, clock, reset);
 uart_timer ut(next_bit, set, clock, reset);
 
 wire [10:0] data_sent, data_input;
-wire parity;
-assign data_input = {1'b1, parity, data_in, 1'b0};
-assign parity = ^data_in;
+
+assign data_input = {1'b1, data_in, 1'b0};
 uart_shift_register usr(data_sent, data_input, 1'b1, shift, load, clock, reset);
 assign data_out = data_sent[0];
 

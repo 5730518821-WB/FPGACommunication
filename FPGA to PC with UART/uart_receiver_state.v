@@ -1,11 +1,12 @@
-module stateForUartRec(resetTimer,resetCounter,increment,shift,finish,count8,count10,timetick,dataIn,clk,reset);
-output resetTimer,resetCounter,increment,shift,finish;
-input count8,count10,timetick,dataIn,clk,reset;
+module stateForUartRec(resetTimer,resetCounter,increment,shift,finish,received,count8,count9,timetick,dataIn,clk,reset);
+output resetTimer,resetCounter,increment,shift,finish,received;
+input count8,count9,timetick,dataIn,clk,reset;
 
 reg resetTimer;
 reg resetCounter;
 reg increment;
 reg shift;
+reg received;
 reg[2:0] ps;
 reg[2:0] ns;
 reg finish;
@@ -16,7 +17,7 @@ begin
 	else ps = ns;
 end
 
-always @(count8 or count10 or timetick or dataIn or ps)
+always @(count8 or count9 or timetick or dataIn or ps)
 begin
 	if(ps == 0)
 		begin
@@ -44,10 +45,11 @@ begin
 		end
 	else if(ps == 5)
 		begin
-			if(count10 == 1)ns = 6;
+			if(count9 == 1)ns = 6;
 			else ns = 4;
 		end
-	else if(ps == 6)ns = 0;
+	else if(ps == 6)ns = 7;
+	else if(ps == 7)ns=0;
 end
 
 always @(ps)
@@ -60,8 +62,10 @@ begin
 	else shift = 0;
 	if(ps == 3 || ps == 5)increment = 1;
 	else increment = 0;
-	if(ps == 6 || ps == 0)finish = 1;
+	if(ps == 7 || ps == 0)finish = 1;
 	else finish = 0;
+	if(ps == 6)received = 1;
+	else received = 0;
 	
 end
 
