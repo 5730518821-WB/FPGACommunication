@@ -15,47 +15,28 @@ begin
 	else ps = ns;
 end
 
-always @(start or empty or endCRC or block or hasNext or ps)
+always @(response or start or empty or endCRC or block or bytes or hasNext or ps)
 begin
-	if(ps == 0)
+	if(ps == 0)ns = start?1:0;
+	if(ps == 1)ns = 2;
+	if(ps == 2)
 		begin
-			if(start)ns = 1;
+			if(hasNext)ns=(empty==0 && response == 8'b11111111)?3:2;
 			else ns = 0;
 		end
-	else if(ps == 1)ns = 2;
-	else if(ps == 2)
+	if(ps == 3)ns = 4;
+	if(ps == 4)
 		begin
-			if(hasNext)
-				begin 
-					if(empty == 0  & (response == 8'b11111111))ns=3;
-					else ns = 2;
-				end
-			else ns = 0;
-		end
-	else if(ps == 3)ns = 4;
-	else if(ps == 4)
-		begin
-			if(response == 8'b00000000)ns = 5;
+			if(response == 8'b0)ns = 10;
 			else if(response[7] == 1)ns = 4;
 			else ns = 3;
 		end
-	else if(ps == 5)ns = 6;
-	else if(ps == 6)
-		begin
-			if(bytes)ns = 7;
-			else ns = 6;
-		end
-	else if(ps == 7)
-		begin
-			if(block)ns = 8;
-			else ns = 7;
-		end
-	else if(ps == 8)
-		begin
-			if(endCRC)ns = 9;
-			else ns = 8;
-		end
-	else if(ps == 9)ns = 2;
+	if(ps == 10)ns = (response == 8'b11111111)?5:10;
+	if(ps == 5)ns = 6;
+	if(ps == 6)ns = (bytes)?7:6;
+	if(ps == 7)ns = (block)?8:7;
+	if(ps == 8)ns = (endCRC)?9:8;
+	if(ps == 9)ns = 2;
 end
 
 always @(ps)

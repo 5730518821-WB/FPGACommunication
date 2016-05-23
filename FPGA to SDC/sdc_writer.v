@@ -4,7 +4,7 @@ input start,empty,dataFromSdc,clk,reset;
 input[7:0] dataFromRam;
 input[7:0] sizeRead;
 
-wire[7:0] dataSelect;
+wire[7:0] dataBytes;
 wire[7:0] dataToWrite;
 wire[47:0] fullCmd;
 wire[31:0] addr;
@@ -34,7 +34,7 @@ stateSdcWriter s0(count,byteEnable,resetCounter,loadCmd,shiftCmd,nextAddr,dataSe
 
 wire[1:0] mode1;
 assign mode1 = {load | startCount,load | startCount | shift};
-shift_register sreg0(dataToWrite,dataSelect,1'b0,mode1,clk,reset);
+shift_register sreg0(dataToWrite,dataBytes,1'b0,mode1,clk,reset);
 wire[1:0] mode2;
 assign mode2 = {1'b0,1'b1};
 shift_register sreg1(response,8'b0,dataFromSdc,mode2,clk,reset);
@@ -46,7 +46,7 @@ commandGen cmdGen(fullCmd,addr);
 
 assign dataSDC = (dataSelect)?dataToWrite[7]:command;
 assign dataToSdc = (oe)?dataSDC:1;
-assign dataSelect = (tokenSelect)?8'b1111_1110:dataFromRam;
+assign dataBytes = (tokenSelect)?8'b1111_1110:dataFromRam;
 assign hasNext = (sizeAddr > mBytes)?1:0;
 
 endmodule
