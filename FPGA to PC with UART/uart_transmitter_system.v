@@ -12,7 +12,7 @@ module uart_transmitter_system(
 );
 
 wire [7:0] received_data, running_data;
-wire received;
+wire sreceived, received;
 wire processed;
 
 wire busy;
@@ -22,7 +22,9 @@ fpga_receiver fr(running_data, received, acknowledge, data_in, processed, send, 
 
 fpga_communication_bridge fcb(received_data, processed, transmit, running_data, received, busy, clock, reset);
 
-crc8_calculator c(crc8, running_data, received, clear_crc, clock, reset);
+single_pulser sr(sreceived, received, clock, reset);
+
+crc8_calculator c(crc8, received_data, sreceived, clear_crc, clock, reset);
 
 uart_transmitter ut(data_out, busy, received_data, transmit, hold, clock, reset);
 
