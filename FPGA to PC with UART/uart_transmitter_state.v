@@ -19,7 +19,7 @@ module uart_transmitter_state(
   input send,
 
   // Hold signal for handshaking with receiver
-  input hold,
+  input rts,
 
   // All and Next signal from counter and timer
   input all,
@@ -48,7 +48,7 @@ always @(*) begin
   if (reset)
     next_state = 0;
   else if (Idle)
-    if ({hold, send} == 2'b01)
+    if (rts&send)
       next_state = 1;
     else
       next_state = 0;

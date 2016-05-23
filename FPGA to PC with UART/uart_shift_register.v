@@ -6,8 +6,8 @@
 
 module uart_shift_register(
   // These wires are redirected from the UART modules
-  output [10:0] data_out,
-  input [10:0] data_in_p,
+  output [9:0] data_out,
+  input [9:0] data_in_p,
   input data_in_s,
   input shift,
   input load,
@@ -18,8 +18,8 @@ module uart_shift_register(
 wire [7:0] data_output [1:0];
 wire [7:0] data_input [1:0];
 
-assign data_out = {data_output[1], data_output[0][7:5]};
-assign {data_input[1], data_input[0]} = {data_in_p, 5'b0};
+assign data_out = {data_output[1], data_output[0][7:6]};
+assign {data_input[1], data_input[0]} = {data_in_p, 6'b0};
 
 wire [1:0] mode;
 assign mode = {load|shift, load};
