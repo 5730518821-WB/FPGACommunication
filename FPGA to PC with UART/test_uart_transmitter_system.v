@@ -29,6 +29,7 @@ module test_uart_transmitter_system;
 	reg data_in;
 	reg send;
 	reg finish;
+	reg clear_crc;
 	reg clock;
 	reg reset;
 
@@ -53,6 +54,7 @@ module test_uart_transmitter_system;
 		.data_in(data_in), 
 		.send(send), 
 		.finish(finish), 
+		.clear_crc(clear_crc),
 		.clock(clock), 
 		.reset(reset)
 	);
@@ -86,6 +88,7 @@ module test_uart_transmitter_system;
 		data_in = 0;
 		send = 0;
 		finish = 0;
+		clear_crc = 0;
 		clock = 0;
 		reset = 0;
 
